@@ -8,7 +8,7 @@
 
 ## 项目截图
 
-<vedio src="assets/dance.mp4">
+https://github.com/user-attachments/assets/26694c83-f643-4ee2-8cb8-32480fe521b6
 
 ## 价格（良心价）
 
