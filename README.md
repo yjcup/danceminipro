@@ -8,7 +8,7 @@
 
 ## 项目截图
 
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113112124490494&bvid=BV11CpseFE2i&cid=25810504206&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+<vedio src="assets/dance.mp4">
 
 ## 价格（良心价）
 
