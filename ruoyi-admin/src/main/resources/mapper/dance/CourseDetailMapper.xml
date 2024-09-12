@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CourseDetailMapper">
+    
+    <resultMap type="CourseDetail" id="CourseDetailResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="title"    column="title"    />
+        <result property="url"    column="url"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectCourseDetailVo">
+        select id, course_id, title, url, create_time from course_detail
+    </sql>
+
+    <select id="selectCourseDetailList" parameterType="CourseDetail" resultMap="CourseDetailResult">
+        <include refid="selectCourseDetailVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="courseId != null  and courseId != ''"> and course_id = #{courseId}</if>
+
+        </where>
+    </select>
+    
+    <select id="selectCourseDetailById" parameterType="Long" resultMap="CourseDetailResult">
+        <include refid="selectCourseDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCourseDetail" parameterType="CourseDetail">
+        insert into course_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="title != null">title,</if>
+            <if test="url != null">url,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="courseId != null">#{courseId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="url != null">#{url},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourseDetail" parameterType="CourseDetail">
+        update course_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseDetailById" parameterType="Long">
+        delete from course_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseDetailByIds" parameterType="String">
+        delete from course_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

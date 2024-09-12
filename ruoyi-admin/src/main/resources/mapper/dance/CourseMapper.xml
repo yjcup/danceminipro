@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CourseMapper">
+    
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="des"    column="des"    />
+        <result property="price"    column="price"    />
+        <result property="count"    column="count"    />
+        <result property="cate"    column="cate"    />
+        <result property="img"    column="img"    />
+        <result property="imglist"    column="imglist"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectCourseVo">
+        select id, title, des, price, count, cate, img, imglist, create_time from course
+    </sql>
+
+    <select id="selectCourseList" parameterType="Course" resultMap="CourseResult">
+        <include refid="selectCourseVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="cate != null  and cate != ''"> and cate = #{cate}</if>
+        </where>
+    </select>
+    
+    <select id="selectCourseById" parameterType="Long" resultMap="CourseResult">
+        <include refid="selectCourseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCourse" parameterType="Course" useGeneratedKeys="true" keyProperty="id">
+        insert into course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="des != null">des,</if>
+            <if test="price != null">price,</if>
+            <if test="count != null">count,</if>
+            <if test="cate != null">cate,</if>
+            <if test="img != null">img,</if>
+            <if test="imglist != null">imglist,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="des != null">#{des},</if>
+            <if test="price != null">#{price},</if>
+            <if test="count != null">#{count},</if>
+            <if test="cate != null">#{cate},</if>
+            <if test="img != null">#{img},</if>
+            <if test="imglist != null">#{imglist},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourse" parameterType="Course">
+        update course
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="des != null">des = #{des},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="count != null">count = #{count},</if>
+            <if test="cate != null">cate = #{cate},</if>
+            <if test="img != null">img = #{img},</if>
+            <if test="imglist != null">imglist = #{imglist},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseById" parameterType="Long">
+        delete from course where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseByIds" parameterType="String">
+        delete from course where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
